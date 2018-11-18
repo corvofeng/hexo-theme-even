@@ -2,6 +2,14 @@
   <a href="{{ url_for('.') }}" class="logo">{{ config.title }}</a>
 </div>
 
+<gcse:search></gcse:search>
+
+<div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input" placeholder="search my blog...">
+ <div id="local-search-result"></div>
+</div>
+
 <nav class="site-navbar">
   {%- if theme.menu -%}
     <ul id="menu" class="menu">
@@ -20,3 +28,4 @@
     </ul>
   {%- endif -%}
 </nav>
+
