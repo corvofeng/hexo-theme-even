@@ -8,7 +8,7 @@
       {{ _p('counter.tagcloud', site.tags.length) }}
     </div>
     <div class="tag-cloud-tags">
-      {{ tagcloud({min_font: 16, max_font: 28, amount: 100, orderby: 'count'}) }}
+      {{ tagcloud({min_font: 16, max_font: 28, amount: site.tags.length, orderby: 'count'}) }}
     </div>
   </div>
 {%- endblock -%}

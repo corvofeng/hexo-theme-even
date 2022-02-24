@@ -56,6 +56,13 @@
           {{ post.content }}
         {%- endif -%}
       {%- else -%}
+        {%- if post.tags and post.tags.length -%}
+          <div class="head-tags">
+            {%- for tag in post.tags -%}
+              <a href="{{ url_for(tag.path) }}">{{ tag.name }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
         {{ post.content }}
       {%- endif -%}
     </div>
@@ -70,6 +77,7 @@
 
     {%- if not is_home() -%}
       <footer class="post-footer">
+        {#
         {%- if post.tags and post.tags.length -%}
           <div class="post-tags">
             {%- for tag in post.tags -%}
@@ -77,6 +85,7 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+        #}
         {#- Post Pagination -#}
         {%- include "../_partial/pagination.swig" -%}
       </footer>
