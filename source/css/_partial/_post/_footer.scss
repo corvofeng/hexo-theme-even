@@ -2,6 +2,20 @@
 // Post footer
 // ==============================
 
+.head-tags {
+  padding: $post-tags-padding;
+
+  a {
+    margin-right: 5px;
+    color: $theme-color;
+    word-break: break-all;
+
+    &::before {
+      content: '#';
+    }
+  }
+}
+
 .post-footer {
   margin-top: $post-footer-margin-top;
   border-top: $post-footer-border-top;
