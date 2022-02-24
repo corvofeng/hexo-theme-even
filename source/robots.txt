@@ -1,4 +1,1 @@
-User-agent: *
-Disallow: /tags/
-Disallow: /page/
-Disallow: /categories/
+# robots.txt generated at http://tool.chinaz.com/robots/ 
