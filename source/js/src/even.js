@@ -166,7 +166,7 @@
     function addCounter(Counter) {
       var query = new AV.Query(Counter);
 
-      var url = $visits.data('url').trim();
+      var url = decodeURI($visits.data('url').trim());
       var title = $visits.data('title').trim();
 
       query.equalTo('url', url);
