@@ -37,3 +37,6 @@
   <meta name="google-site-verification" content="{{ theme.google_verification }}" />
 {%- endif -%}
 
+{%- if theme.google_ad_client -%}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{theme.google_ad_client}}" crossorigin="anonymous"></script>
+{%- endif -%}
