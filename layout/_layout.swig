@@ -32,6 +32,14 @@
         <i class="iconfont icon-up"></i>
       </div>
     </div>
+    <div
+       id="heartsteel-root"
+       hs-model="https://model.rawforcorvofeng.cn/arcanist-zoe.glb"
+       hs-width="350"
+       hs-height="350"
+       hs-scale="0.0035"
+       hs-action="Death"
+    />
 
     {%- include '_script/comments.swig' -%}
     {%- include '_script/libs.swig' -%}

@@ -16,3 +16,9 @@
     <script type="text/javascript" src="{{ url_for('lib') }}/{{ lib }}"></script>
   {%- endif -%}
 {%- endfor -%}
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@corvo-publish/heartsteel@0.0.1/dist/assets/plugin-0.0.0.js"></script>
+<!--
+<link rel="stylesheet" crossorigin href="http://localhost:4173/assets/plugin.css">
+-->
