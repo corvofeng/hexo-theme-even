@@ -19,6 +19,9 @@
 
 
 <div id="heartsteel-container">
+<!--
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/@corvo-publish/heartsteel@latest/dist/assets/heartsteel.js" ></script>
+-->
 <script>
   function loadHeartsteel() {
       var script = document.createElement('script');
