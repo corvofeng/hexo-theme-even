@@ -18,7 +18,17 @@
 {%- endfor -%}
 
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@corvo-publish/heartsteel@0.0.1/dist/assets/plugin-0.0.0.js"></script>
-<!--
-<link rel="stylesheet" crossorigin href="http://localhost:4173/assets/plugin.css">
--->
+<div id="heartsteel-container">
+<script>
+  function loadHeartsteel() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = '//cdn.jsdelivr.net/npm/@corvo-publish/heartsteel@latest/dist/assets/heartsteel.js';
+      var container = document.getElementById('heartsteel-container');
+      if (container) {
+          container.appendChild(script);
+      }
+  }
+  // 在DOM完全加载后调用该函数
+  document.addEventListener('DOMContentLoaded', loadHeartsteel);
+</script>
