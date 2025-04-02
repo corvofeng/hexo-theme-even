@@ -46,7 +46,7 @@
 {%- set themeConfig = { leancloud: theme.leancloud, toc: theme.toc, fancybox: theme.fancybox, pjax: theme.pjax, latex: theme.latex } -%}
 <script>
   window.config = {{ JSON.stringify(themeConfig) }};
-  {% if page.fancybox == true or page.fancybox == false -%}
+  {% if page.fancybox === true or page.fancybox === false -%}
   window.config.fancybox =  {{ page.fancybox }};
   {% endif -%}
 </script>
