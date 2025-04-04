@@ -24,5 +24,20 @@
         data-page-title="{{ page.title }}"
       ></div>
     {%- endif -%}
+    <script src="https://giscus.app/client.js"
+            data-repo="corvofeng/BlogCode"
+            data-repo-id="MDEwOlJlcG9zaXRvcnkxODgwNDcyNjU="
+            data-category="General"
+            data-category-id="DIC_kwDOCzVfoc4Cowy2"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async>
+    </script>
   </div>
 {%- endif -%}
