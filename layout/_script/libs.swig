@@ -1,5 +1,13 @@
-{%- if theme.fancybox -%}
-  {%- set fancybox_js = 'fancybox/jquery.fancybox.pack.js' -%}
+{%- set fancyboxType = theme.fancybox -%}
+{%- if fancyboxType === true -%}
+  {%- set fancyboxType = 'fancyapps' -%}
+{%- endif -%}
+{%- if fancyboxType -%}
+  {%- if fancyboxType === 'jquery' -%}
+    {%- set fancybox_js = 'fancybox/jquery.fancybox.pack.js' -%}
+  {%- else -%}
+    {%- set fancybox_js = 'fancyapps/fancybox.umd.js' -%}
+  {%- endif -%}
 {%- endif -%}
 
 {%-

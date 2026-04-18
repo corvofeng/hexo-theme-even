@@ -15,8 +15,9 @@
       this.scrollToc();
       this.tocFollow();
     }
-    if (this.config.fancybox) {
-      this.fancybox();
+    var fancyboxConfig = this.getFancyboxConfig();
+    if (fancyboxConfig.enable) {
+      this.fancybox(fancyboxConfig);
     }
     if (leancloud.app_id && leancloud.app_key) {
       this.recordReadings();
@@ -25,6 +26,96 @@
       this.renderLaTeX();
     }
     this.backToTop();
+  };
+
+  Even.prototype.getFancyboxConfig = function () {
+    var fancybox = this.config.fancybox;
+
+    if (fancybox === false || fancybox === null || fancybox === undefined) {
+      return { enable: false };
+    }
+
+    if (fancybox === true) {
+      return { enable: true, type: 'fancyapps' };
+    }
+
+    if (typeof fancybox === 'string') {
+      return { enable: true, type: fancybox };
+    }
+
+    if (typeof fancybox === 'object') {
+      return {
+        enable: fancybox.enable !== false,
+        type: fancybox.type || 'fancyapps',
+        selector: fancybox.selector,
+        options: fancybox.options
+      };
+    }
+
+    return { enable: false };
+  };
+
+  Even.prototype.getDefaultFancyboxSelector = function () {
+    return '.post-content [data-fancybox], .post-content img';
+  };
+
+  Even.prototype.getDefaultFancyboxOptions = function () {
+    return {
+      dragToClose: false,
+      wheel: false,
+      groupAll: true,
+      Toolbar: {
+        display: {
+          left: ['close'],
+          middle: ['counter'],
+          right: ['slideshow', 'fullscreen', 'thumbs']
+        }
+      },
+      Carousel: {
+        transition: 'fade',
+        friction: 0.96,
+        preload: 10
+      },
+      template: {
+        closeButton: '<svg><path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/></svg>'
+      },
+      Hash: {
+        getSlug: function (slide) {
+          return (slide && slide.triggerEl && slide.triggerEl.dataset && slide.triggerEl.dataset.slug) ? slide.triggerEl.dataset.slug : '';
+        }
+      },
+      l10n: {
+        CLOSE: '关闭',
+        NEXT: '下一张',
+        PREV: '上一张',
+        MODAL: '你可以使用 ESC 键关闭此窗口',
+        ERROR: '出错了，请稍后再试',
+        IMAGE_ERROR: '图片未找到',
+        ELEMENT_NOT_FOUND: '未找到 HTML 元素',
+        TOGGLE_SLIDESHOW: '切换幻灯片播放',
+        TOGGLE_FULLSCREEN: '切换全屏',
+        TOGGLE_THUMBS: '切换缩略图',
+        TOGGLE_ZOOM: '切换缩放级别',
+        ITERATE_DOWNLOAD: '下载'
+      }
+    };
+  };
+
+  Even.prototype.mergeDeep = function (target, source) {
+    if (source === null || source === undefined) return target;
+    if (typeof source !== 'object') return target;
+
+    var output = Array.isArray(target) ? target.slice() : Object.assign({}, target);
+    Object.keys(source).forEach(function (key) {
+      var srcValue = source[key];
+      if (srcValue && typeof srcValue === 'object' && !Array.isArray(srcValue)) {
+        var base = output[key] && typeof output[key] === 'object' ? output[key] : {};
+        output[key] = Even.prototype.mergeDeep(base, srcValue);
+      } else {
+        output[key] = srcValue;
+      }
+    });
+    return output;
   };
 
   Even.prototype.navbar = function () {
@@ -130,10 +221,33 @@
     });
   };
 
-  Even.prototype.fancybox = function () {
+  Even.prototype.fancybox = function (fancyboxConfig) {
+    var type = fancyboxConfig && fancyboxConfig.type ? fancyboxConfig.type : 'fancyapps';
+
+    if (type !== 'jquery' && window.Fancybox && typeof window.Fancybox.bind === 'function') {
+      var selector = (fancyboxConfig && fancyboxConfig.selector) ? fancyboxConfig.selector : this.getDefaultFancyboxSelector();
+      var options = this.mergeDeep(this.getDefaultFancyboxOptions(), (fancyboxConfig && fancyboxConfig.options) ? fancyboxConfig.options : {});
+
+      try {
+        var images = document.querySelectorAll(selector);
+        for (var i = 0; i < images.length; i++) {
+          var el = images[i];
+          if (el && el.tagName === 'IMG' && el.dataset) {
+            if (!el.dataset.fancybox) el.dataset.fancybox = 'gallery';
+            if (el.alt && !el.dataset.caption) el.dataset.caption = el.alt;
+          }
+        }
+      } catch (e) {
+      }
+
+      window.Fancybox.bind(selector, options);
+      return;
+    }
+
     if ($.fancybox) {
       $('.post').each(function () {
-        $(this).find('img').each(function () {
+        $(this).find('.post-content img').each(function () {
+          if ($(this).parent('a').length) return;
           var href = 'href="' + this.src + '"';
           var title = 'title="' + this.alt + '"';
           $(this).wrap('<a class="fancybox" ' + href + ' ' + title + '></a>');

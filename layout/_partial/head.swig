@@ -19,8 +19,20 @@
 <link rel="canonical" href="{{ config.url }}/{{ page.canonical_path.replace('index.html', '') }}"/>
 
 {#- Fancybox styling -#}
-{%- if theme.fancybox -%}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('lib/fancybox/jquery.fancybox.css') }}" />
+{%- set fancyboxType = theme.fancybox -%}
+{%- if fancyboxType === true -%}
+  {%- set fancyboxType = 'fancyapps' -%}
+{%- endif -%}
+{%- if fancyboxType -%}
+  {%- if fancyboxType === 'jquery' -%}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('lib/fancybox/jquery.fancybox.css') }}" />
+  {%- else -%}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('lib/fancyapps/fancybox.css') }}" />
+  {%- endif -%}
+{%- endif -%}
+{%- set fancyboxEnabled = false -%}
+{%- if fancyboxType -%}
+  {%- set fancyboxEnabled = true -%}
 {%- endif -%}
 
 {#- MathJax (LaTeX) support -#}
@@ -43,10 +55,16 @@
 {#- LeanCloud Counter -#}
 {%- include "../_script/counter.swig"%}
 
-{%- set themeConfig = { leancloud: theme.leancloud, toc: theme.toc, fancybox: theme.fancybox, pjax: theme.pjax, latex: theme.latex } -%}
+{%- set fancyboxConfig = { enable: fancyboxEnabled, type: fancyboxType, selector: theme.fancybox_selector, options: theme.fancybox_options } -%}
+{%- set themeConfig = { leancloud: theme.leancloud, toc: theme.toc, fancybox: fancyboxConfig, pjax: theme.pjax, latex: theme.latex } -%}
 <script>
   window.config = {{ JSON.stringify(themeConfig) }};
-  {% if page.fancybox === true or page.fancybox === false -%}
-  window.config.fancybox =  {{ page.fancybox }};
+  {% if page.fancybox === false -%}
+  window.config.fancybox.enable = false;
+  {% elif page.fancybox === true -%}
+  window.config.fancybox.enable = true;
+  {% elif page.fancybox -%}
+  window.config.fancybox.enable = true;
+  window.config.fancybox.type = "{{ page.fancybox }}";
   {% endif -%}
 </script>

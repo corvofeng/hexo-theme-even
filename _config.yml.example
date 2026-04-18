@@ -34,8 +34,7 @@ mode: default
 
 toc: true
 
-# jQuery fancybox
-fancybox: true
+fancybox: fancyapps
 
 # LaTeX support (via MathJax)
 latex: false
