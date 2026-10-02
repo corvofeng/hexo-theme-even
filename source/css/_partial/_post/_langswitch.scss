@@ -1,0 +1,37 @@
+// ==============================
+// Post language switch (zh <-> en)
+// =============================
+
+.post-lang-switch {
+  margin-top: 10px;
+  font-family: $global-font-family;
+
+  .lang-item {
+    display: inline-block;
+    padding: 0 10px;
+    margin-right: 8px;
+    font-size: 13px;
+    line-height: 22px;
+    color: $dark-gray;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    transition-property: color, border-color, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+
+    &:hover {
+      color: $theme-color;
+      border-color: $theme-color;
+    }
+
+    &.current {
+      color: $white;
+      background-color: $theme-color;
+      border-color: $theme-color;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}

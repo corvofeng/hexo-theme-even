@@ -18,7 +18,7 @@
           / {{ post.author }}
         </span>
         {%- endif -%}
-        {%- if post.categories and post.categories.length -%}
+        {%- if post.__post and post.categories and post.categories.length -%}
           <span class="post-category">
             {%- for category in post.categories -%}
               <a href="{{ url_for(category.path) }}">{{ category.name }}</a>
@@ -33,6 +33,22 @@
         </span>
         {%- endif -%}
       </div>
+
+      {#- Language switch (zh <-> en), detail view only -#}
+      {%- if not is_home() -%}
+        {%- set langSwitch = lang_switch(post) -%}
+        {%- if langSwitch -%}
+          <div class="post-lang-switch">
+            {%- if langSwitch.current == 'zh' -%}
+              <span class="lang-item current">中文</span>
+              <a class="lang-item" href="{{ langSwitch.altUrl }}" rel="alternate">English</a>
+            {%- else -%}
+              <a class="lang-item" href="{{ langSwitch.altUrl }}" rel="alternate">中文</a>
+              <span class="lang-item current">English</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
     </header>
 
     {#- Post TOC -#}
@@ -56,10 +72,23 @@
           {{ post.content }}
         {%- endif -%}
       {%- else -%}
-        {%- if post.tags and post.tags.length -%}
+        {%- if post.__post -%}
+          {%- if post.tags and post.tags.length -%}
+            <div class="head-tags">
+              {%- for tag in post.tags -%}
+                <a href="{{ url_for(tag.path) }}">{{ tag.name }}</a>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- elif post.lang == 'en' and post.tags and post.tags.length -%}
+          {#- English pages keep plain string tags in front-matter -#}
           <div class="head-tags">
-            {%- for tag in post.tags -%}
-              <a href="{{ url_for(tag.path) }}">{{ tag.name }}</a>
+            {%- for t in lang_tag_links(post.tags) -%}
+              {%- if t.url -%}
+                <a href="{{ t.url }}">{{ t.name }}</a>
+              {%- else -%}
+                <span>{{ t.name }}</span>
+              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- endif -%}

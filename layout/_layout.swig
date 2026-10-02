@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config.language }}">
+<html lang="{%- if page.lang -%}{{ page.lang }}{%- else -%}{{ config.language }}{%- endif -%}">
   <head>
     {%- include '_partial/head.swig' %}
     <title>{%- block title -%}{%- endblock -%}</title>

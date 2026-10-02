@@ -25,8 +25,10 @@
   <meta name="keywords" content="{{ page.keywords }}" />
 {%- elif config.keywords -%}
   <meta name="keywords" content="{{ config.keywords }}" />
-{%- elif page.tags and page.tags.length -%}
+{%- elif page.__post and page.tags and page.tags.length -%}
   <meta name="keywords" content="{%- for tag in page.tags -%}{{ tag.name }}, {%- endfor -%}{{ config.title }}" />
+{%- elif page.lang == 'en' and page.tags and page.tags.length -%}
+  <meta name="keywords" content="{%- for tag in page.tags -%}{{ tag }}, {%- endfor -%}{{ config.title }}" />
 {%- endif -%}
 
 {%- if theme.baidu_verification -%}

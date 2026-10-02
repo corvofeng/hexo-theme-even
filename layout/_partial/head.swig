@@ -18,6 +18,12 @@
 {#- Canonical, good for google search engine -#}
 <link rel="canonical" href="{{ config.url }}/{{ page.canonical_path.replace('index.html', '') }}"/>
 
+{#- Translation alternate (zh <-> en) -#}
+{%- set headLangSwitch = lang_switch(page) -%}
+{%- if headLangSwitch -%}
+  <link rel="alternate" hreflang="{{ headLangSwitch.altLang }}" href="{{ headLangSwitch.altUrlAbs }}" />
+{%- endif -%}
+
 {#- Fancybox styling -#}
 {%- set fancyboxType = theme.fancybox -%}
 {%- if fancyboxType === true -%}
